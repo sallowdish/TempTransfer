@@ -1,14 +1,20 @@
 /**
  * Created by Ray on 15-08-01.
  */
-public class RRScheduler implements Scheduler {
+public class RR implements Scheduler {
     Queue<Task> RRScheduler;
     Task currentTask;
 
     /**
      * Initializer
      */
-    public void setup(){
+    public RR()
+    {
+        setup();
+    }
+
+    public void setup()
+    {
         RRScheduler = new Queue<Task>(MAXTASKCOUNT);
     }
 
@@ -18,14 +24,19 @@ public class RRScheduler implements Scheduler {
      * and also at the beginning of the simulation.
      * @return int stands for how much time are assigned to task to use CPU
      */
-    public int schedule(){
+    public int schedule()
+    {
         // if current task is not finished with the time assigned,
         // put it back to task queue
-        if (! currentTask.finished){
+        currentTask = Sim.on_cpu;
+        if (currentTask != null && ! currentTask.finished){
             RRScheduler.add(currentTask);
         }
         // find next task to work on
-        currentTask = RRScheduler.remove();
+        Task taskToExecute = RRScheduler.remove();
+        if(taskToExecute != null) {
+            Sim.on_cpu = taskToExecute;
+        }
         return Sim.slice;
     }
 
@@ -33,7 +44,8 @@ public class RRScheduler implements Scheduler {
      * Add a new task in to task queue
      * @param t Task instance which stands for the new arrived task
      */
-    public void new_task(Task t){
+    public void new_task(Task t)
+    {
         RRScheduler.add(t);
     }
 
@@ -42,7 +54,8 @@ public class RRScheduler implements Scheduler {
      * @param t Task object which is going to be updated
      * @param old_deadline original deadline of the task?
      */
-    public void change_deadline(Task t, int old_deadline){
+    public void change_deadline(Task t, int old_deadline)
+    {
         return;
     }
 }

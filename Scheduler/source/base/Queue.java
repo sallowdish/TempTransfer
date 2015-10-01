@@ -106,4 +106,14 @@ public class Queue<T> {
         return false;
     }
 
+//    public ArrayList<T> getAllObject(){
+//        ArrayList<T> result = new ArrayList<>();
+//        Node ptr = head;
+//        while(ptr != null)
+//        {
+//            result.add((T)ptr.p);
+//            ptr = ptr.next;
+//        }
+//        return result;
+//    }
 }
